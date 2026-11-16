@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+
 import Logo from "./logo";
 import CartButton from "./cart-button";
 import WishlistButton from "./wishlist-button";

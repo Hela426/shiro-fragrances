@@ -243,13 +243,9 @@ export default function ShoppingCart() {
           <strong>{formatPrice(total)}</strong>
         </div>
 
-        <button
-          type="button"
-          className="add-to-bag"
-          disabled
-        >
-          Checkout — Coming soon
-        </button>
+        <Link href="/checkout" className="add-to-bag">
+          Proceed to checkout
+        </Link>
 
         <p className="demo-disclaimer">
           SHIRO is a conceptual e-commerce project.
