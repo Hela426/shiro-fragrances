@@ -7,6 +7,9 @@ export const metadata: Metadata = {
     index: false,
     follow: true,
   },
+  alternates: {
+    canonical: "/checkout",
+  },
 };
 
 export default function CheckoutSuccessPage() {

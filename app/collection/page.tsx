@@ -5,8 +5,10 @@ import ShopPageHeader from "../components/shop-page-header";
 
 export const metadata: Metadata = {
   title: "The Collection | SHIRO",
-  description:
-    "Explore the complete SHIRO fragrance collection.",
+  description:"Explore the complete SHIRO fragrance collection.",
+  alternates: {
+    canonical: "/collection",
+  },
 };
 
 export default function CollectionPage() {

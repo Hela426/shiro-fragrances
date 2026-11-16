@@ -36,6 +36,9 @@ export async function generateMetadata({
   return {
     title: `${product.name} — Eau de Parfum | SHIRO`,
     description: product.description,
+    alternates: {
+      canonical: `/products/${product.slug}`,
+    },
   };
 }
 
