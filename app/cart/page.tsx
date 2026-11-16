@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+
 import ShoppingCart from "../components/shopping-cart";
+import PurchasePageHeader from "../components/purchase-page-header";
 
 export const metadata: Metadata = {
   title: "Shopping Bag | SHIRO",
@@ -11,26 +12,7 @@ export const metadata: Metadata = {
 export default function CartPage() {
   return (
     <main className="cart-page">
-      <nav
-        className="breadcrumbs"
-        aria-label="Breadcrumb"
-      >
-        <Link href="/">Home</Link>
-        <span>/</span>
-        <span aria-current="page">Shopping bag</span>
-      </nav>
-
-      <div className="cart-page-heading">
-        <span className="eyebrow">
-          YOUR PERSONAL SELECTION
-        </span>
-
-        <h1>Shopping bag.</h1>
-
-        <p>
-          A collection of moments, chosen by you.
-        </p>
-      </div>
+      <PurchasePageHeader variant="cart" />
 
       <ShoppingCart />
     </main>

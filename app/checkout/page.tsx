@@ -1,59 +1,39 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Link from "next/link";
+
 import CheckoutForm from "../components/checkout-form";
+import PurchasePageHeader from "../components/purchase-page-header";
 
 export const metadata: Metadata = {
   title: "Checkout | SHIRO",
-  description: "Complete your SHIRO demonstration order.",
+  description:
+    "Complete your SHIRO demonstration order.",
 };
 
 export default function CheckoutPage() {
   return (
-    <main>
-      <nav className="breadcrumbs" aria-label="Breadcrumb">
-        <Link href="/">Home</Link>
-        <span>/</span>
-        <Link href="/cart">Shopping bag</Link>
-        <span>/</span>
-        <span aria-current="page">Checkout</span>
-      </nav>
-
-      <div className="cart-page-heading">
-        <span className="eyebrow">
-          THE FINAL MOMENT
-        </span>
-
-        <h1>Complete your order.</h1>
-
-        <p>A fragrance waiting to become a memory.</p>
-      </div>
+    <main className="cart-page">
+      <PurchasePageHeader variant="checkout" />
 
       <Suspense fallback={<CheckoutLoading />}>
         <CheckoutForm />
       </Suspense>
     </main>
   );
+}
 
-  function CheckoutLoading() {
+function CheckoutLoading() {
   return (
-            <div className="product-loading" role="status">
-            <span className="eyebrow">
-                THE FINAL MOMENT
-            </span>
+    <div className="product-loading" role="status">
+      <span className="loading-kanji" lang="ja">
+        静
+      </span>
 
-            <span className="loading-kanji" lang="ja">
-                静
-            </span>
+      <div className="loading-track">
+        <div className="loading-progress" />
+      </div>
 
-            <h2>Preparing your order.</h2>
-
-            <div className="loading-track">
-                <div className="loading-progress" />
-            </div>
-
-            <p>Please wait a moment...</p>
-            </div>
-        );
-    }
+      <p>SHIRO — Fragrances</p>
+    </div>
+  );
 }

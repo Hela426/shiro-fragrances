@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { useCartStore } from "../store/cart-store";
+import { useTranslation } from "../lib/use-translation";
 
 import {
   getCartProducts,
@@ -21,18 +22,23 @@ import {
 } from "../lib/cart";
 
 import { formatPrice } from "../lib/products";
+import {
+  familyTranslations,
+} from "../data/product-translations";
 
 export default function ShoppingCart() {
+  const { language, t } = useTranslation();
+
   const items = useCartStore(
     (state) => state.items
   );
 
-  const updateQuantity = useCartStore(
-    (state) => state.updateQuantity
-  );
-
   const removeItem = useCartStore(
     (state) => state.removeItem
+  );
+
+  const updateQuantity = useCartStore(
+    (state) => state.updateQuantity
   );
 
   const clearCart = useCartStore(
@@ -40,18 +46,11 @@ export default function ShoppingCart() {
   );
 
   const cartProducts = getCartProducts(items);
+  const totals = getCartTotals(items);
 
-  const {
-    count,
-    subtotal,
-    shipping,
-    total,
-    remainingForFreeShipping,
-  } = getCartTotals(items);
-
-  const shippingProgress = Math.min(
+  const progress = Math.min(
     100,
-    (subtotal / FREE_SHIPPING_MINIMUM) * 100
+    (totals.subtotal / FREE_SHIPPING_MINIMUM) * 100
   );
 
   if (cartProducts.length === 0) {
@@ -59,21 +58,15 @@ export default function ShoppingCart() {
       <div className="empty-cart">
         <ShoppingBag size={60} strokeWidth={1} />
 
-        <span className="eyebrow">
-          A MOMENT OF STILLNESS
-        </span>
+        <h2>{t.cart.emptyTitle}</h2>
 
-        <h2>Your bag is empty.</h2>
-
-        <p>
-          Discover a fragrance that speaks to you.
-        </p>
+        <p>{t.cart.emptyDescription}</p>
 
         <Link
           href="/collection"
           className="primary-button"
         >
-          Explore the collection
+          {t.home.explore}
         </Link>
       </div>
     );
@@ -81,175 +74,192 @@ export default function ShoppingCart() {
 
   return (
     <div className="shopping-cart-layout">
-      <div className="cart-items-section">
+      <section className="cart-items-section">
         <div className="cart-items-heading">
-          <span>
-            {count} {count === 1 ? "item" : "items"}
+          <span aria-live="polite">
+            {totals.count}{" "}
+            {totals.count === 1
+              ? t.cart.item
+              : t.cart.items}
           </span>
 
           <button
             type="button"
             onClick={() => {
-              if (window.confirm("Clear your shopping bag?")) {
+              if (window.confirm(t.cart.confirmClear)) {
                 clearCart();
               }
             }}
           >
-            Clear bag
+            {t.cart.clear}
           </button>
         </div>
 
-        {cartProducts.map(({ product, quantity, total }) => (
-          <article
-            className="cart-item"
-            key={product.id}
-          >
-            <Link
-              href={`/products/${product.slug}`}
-              className="cart-item-image"
+        {cartProducts.map(
+          ({ product, quantity, total }) => (
+            <article
+              className="cart-item"
+              key={product.id}
             >
-              <Image
-                src={product.image}
-                alt={`${product.name} fragrance`}
-                fill
-                sizes="140px"
-              />
-            </Link>
+              <Link
+                href={`/products/${product.slug}`}
+                className="cart-item-image"
+              >
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="180px"
+                />
+              </Link>
 
-            <div className="cart-item-content">
-              <div className="cart-item-title">
-                <Link href={`/products/${product.slug}`}>
-                  <h2>
-                    {product.name}{" "}
-                    <span lang="ja">
-                      {product.japaneseName}
-                    </span>
-                  </h2>
-                </Link>
-
-                <button
-                  type="button"
-                  aria-label={`Remove ${product.name}`}
-                  onClick={() => removeItem(product.id)}
-                >
-                  <Trash2 size={17} strokeWidth={1.5} />
-                </button>
-              </div>
-
-              <p>
-                {product.family} · {product.volume} ml
-              </p>
-
-              <div className="cart-item-unit-price">
-                {formatPrice(product.price)} / unit
-              </div>
-
-              <div className="cart-item-bottom">
-                <div className="quantity-selector">
-                  <button
-                    type="button"
-                    aria-label={`Decrease ${product.name} quantity`}
-                    disabled={quantity <= 1}
-                    onClick={() =>
-                      updateQuantity(
-                        product.id,
-                        quantity - 1
-                      )
-                    }
-                  >
-                    <Minus size={15} />
-                  </button>
-
-                  <span aria-live="polite">
-                    {quantity}
-                  </span>
+              <div className="cart-item-content">
+                <div className="cart-item-title">
+                  <Link href={`/products/${product.slug}`}>
+                    <h2>
+                      {product.name}{" "}
+                      <span lang="ja">
+                        {product.japaneseName}
+                      </span>
+                    </h2>
+                  </Link>
 
                   <button
                     type="button"
-                    aria-label={`Increase ${product.name} quantity`}
-                    disabled={quantity >= product.stock}
-                    onClick={() =>
-                      updateQuantity(
-                        product.id,
-                        quantity + 1
-                      )
-                    }
+                    aria-label={`${t.cart.remove}: ${product.name}`}
+                    onClick={() => removeItem(product.id)}
                   >
-                    <Plus size={15} />
+                    <Trash2 size={18} strokeWidth={1.5} />
                   </button>
                 </div>
 
-                <strong>{formatPrice(total)}</strong>
+                <p>
+                  {familyTranslations[language][product.family]}
+                  {" · "}
+                  {product.volume} ml
+                </p>
+
+                <span className="cart-item-unit-price">
+                  {formatPrice(product.price)}{" "}
+                  {t.cart.each}
+                </span>
+
+                <div className="cart-item-bottom">
+                  <div className="quantity-selector">
+                    <button
+                      type="button"
+                      aria-label={`${t.product.decrease}: ${product.name}`}
+                      disabled={quantity <= 1}
+                      onClick={() =>
+                        updateQuantity(
+                          product.id,
+                          quantity - 1
+                        )
+                      }
+                    >
+                      <Minus size={16} />
+                    </button>
+
+                    <span>{quantity}</span>
+
+                    <button
+                      type="button"
+                      aria-label={`${t.product.increase}: ${product.name}`}
+                      disabled={quantity >= product.stock}
+                      onClick={() =>
+                        updateQuantity(
+                          product.id,
+                          quantity + 1
+                        )
+                      }
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
+
+                  <strong>
+                    {formatPrice(total)}
+                  </strong>
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          )
+        )}
 
         <Link
           href="/collection"
           className="continue-shopping"
         >
           <ArrowLeft size={16} />
-          Continue shopping
+
+          {t.cart.continue}
         </Link>
-      </div>
+      </section>
 
       <aside className="cart-summary">
         <div className="shipping-progress-section">
-          <Truck size={24} strokeWidth={1.5} />
+          <Truck size={23} strokeWidth={1.5} />
 
-          <p>
-            {remainingForFreeShipping === 0
-              ? "Your order qualifies for complimentary shipping."
-              : `Spend ${formatPrice(
-                  remainingForFreeShipping
-                )} more for complimentary shipping.`}
+          <p aria-live="polite">
+            {totals.remainingForFreeShipping <= 0
+              ? t.cart.freeShipping
+              : t.cart.remaining.replace(
+                  "{amount}",
+                  formatPrice(
+                    totals.remainingForFreeShipping
+                  )
+                )}
           </p>
 
           <div
             className="shipping-progress-track"
             role="progressbar"
-            aria-label="Free shipping progress"
-            aria-valuenow={Math.round(shippingProgress)}
+            aria-label={t.cart.shipping}
             aria-valuemin={0}
             aria-valuemax={100}
+            aria-valuenow={Math.round(progress)}
           >
-            <div
-              style={{
-                width: `${shippingProgress}%`,
-              }}
-            />
+            <div style={{ width: `${progress}%` }} />
           </div>
         </div>
 
-        <h2>Order summary.</h2>
+        <h2>{t.cart.summary}</h2>
 
         <div className="summary-row">
-          <span>Subtotal</span>
-          <span>{formatPrice(subtotal)}</span>
+          <span>{t.cart.subtotal}</span>
+
+          <span>
+            {formatPrice(totals.subtotal)}
+          </span>
         </div>
 
         <div className="summary-row">
-          <span>Shipping</span>
+          <span>{t.cart.shipping}</span>
+
           <span>
-            {shipping === 0
-              ? "Complimentary"
-              : formatPrice(shipping)}
+            {totals.shipping === 0
+              ? t.cart.free
+              : formatPrice(totals.shipping)}
           </span>
         </div>
 
         <div className="summary-row summary-total">
-          <span>Total</span>
-          <strong>{formatPrice(total)}</strong>
+          <span>{t.cart.total}</span>
+
+          <strong>
+            {formatPrice(totals.total)}
+          </strong>
         </div>
 
-        <Link href="/checkout" className="add-to-bag">
-          Proceed to checkout
+        <Link
+          href="/checkout"
+          className="add-to-bag"
+        >
+          {t.cart.checkout}
         </Link>
 
         <p className="demo-disclaimer">
-          SHIRO is a conceptual e-commerce project.
-          No real transactions are processed.
+          {t.cart.disclaimer}
         </p>
       </aside>
     </div>

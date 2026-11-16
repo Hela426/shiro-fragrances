@@ -2,7 +2,11 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
+
+import {
+  CheckCircle2,
+  ShoppingBag,
+} from "lucide-react";
 
 import {
   ORDER_STORAGE_KEY,
@@ -10,6 +14,8 @@ import {
 } from "../lib/checkout";
 
 import { formatPrice } from "../lib/products";
+import { useTranslation } from "../lib/use-translation";
+
 import styles from "./checkout.module.css";
 
 function subscribe(callback: () => void) {
@@ -22,7 +28,9 @@ function subscribe(callback: () => void) {
 
 function getSnapshot() {
   try {
-    return sessionStorage.getItem(ORDER_STORAGE_KEY) ?? "";
+    return sessionStorage.getItem(
+      ORDER_STORAGE_KEY
+    ) ?? "";
   } catch {
     return "";
   }
@@ -33,37 +41,46 @@ function getServerSnapshot() {
 }
 
 export default function OrderConfirmation() {
+  const { t } = useTranslation();
+
   const storedOrder = useSyncExternalStore(
     subscribe,
     getSnapshot,
     getServerSnapshot
   );
 
-  let order: DemoOrder | null = null;
-
-  if (storedOrder) {
-    try {
-      order = JSON.parse(storedOrder) as DemoOrder;
-    } catch {
-      order = null;
-    }
-  }
-
   if (storedOrder === null) {
     return (
-      <div className={styles.confirmation} role="status">
-        Preparing your confirmation...
+      <div className="empty-cart" role="status">
+        {t.checkout.preparing}
       </div>
     );
   }
 
-  if (!order) {
-    return (
-      <div className={styles.confirmation}>
-        <h1>No order found.</h1>
+  let order: DemoOrder | null = null;
 
-        <Link href="/collection" className="primary-button">
-          Explore the collection
+  try {
+    order = storedOrder
+      ? JSON.parse(storedOrder)
+      : null;
+  } catch {
+    order = null;
+  }
+
+  if (!order || !order.id) {
+    return (
+      <div className="empty-cart">
+        <ShoppingBag size={55} strokeWidth={1} />
+
+        <h2>{t.confirmation.emptyTitle}</h2>
+
+        <p>{t.confirmation.emptyDescription}</p>
+
+        <Link
+          href="/collection"
+          className="primary-button"
+        >
+          {t.home.explore}
         </Link>
       </div>
     );
@@ -78,64 +95,67 @@ export default function OrderConfirmation() {
       />
 
       <span className={styles.eyebrow}>
-        DEMO ORDER CONFIRMED
+        {t.confirmation.eyebrow}
       </span>
 
-      <h1>
-        Thank you for <em>choosing SHIRO.</em>
-      </h1>
+      <h1>{t.confirmation.title}</h1>
 
-      <p>
-        A moment of beauty, chosen by you.
-        Your demonstration order has been completed.
-      </p>
+      <p>{t.confirmation.description}</p>
 
       <div className={styles.receipt}>
         <span className={styles.eyebrow}>
-          ORDER REFERENCE
+          {t.confirmation.reference}
         </span>
 
-        <strong>{order.id}</strong>
+        <h2 className={styles.heading}>
+          {order.id}
+        </h2>
 
         <div className={styles.row}>
-          <span>Items</span>
+          <span>{t.confirmation.items}</span>
           <span>{order.count}</span>
         </div>
 
         <div className={styles.row}>
-          <span>Subtotal</span>
+          <span>{t.cart.subtotal}</span>
           <span>{formatPrice(order.subtotal)}</span>
         </div>
 
         {order.discount > 0 && (
           <div className={styles.row}>
-            <span>Discount</span>
-            <span>-{formatPrice(order.discount)}</span>
+            <span>{t.checkout.discount}</span>
+
+            <span>
+              -{formatPrice(order.discount)}
+            </span>
           </div>
         )}
 
         <div className={styles.row}>
-          <span>Shipping</span>
+          <span>{t.cart.shipping}</span>
+
           <span>
             {order.shipping === 0
-              ? "Complimentary"
+              ? t.cart.free
               : formatPrice(order.shipping)}
           </span>
         </div>
 
-        <div className={`${styles.row} ${styles.total}`}>
-          <strong>Total</strong>
+        <div
+          className={`${styles.row} ${styles.total}`}
+        >
+          <span>{t.cart.total}</span>
           <strong>{formatPrice(order.total)}</strong>
         </div>
       </div>
 
-      <p>
-        This was a simulated purchase.
-        No payment was collected and no products will be shipped.
-      </p>
+      <p>{t.confirmation.notice}</p>
 
-      <Link href="/collection" className="primary-button">
-        Continue exploring
+      <Link
+        href="/collection"
+        className="primary-button"
+      >
+        {t.confirmation.continue}
       </Link>
     </section>
   );
