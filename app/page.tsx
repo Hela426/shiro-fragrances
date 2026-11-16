@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
@@ -39,10 +41,10 @@ export default function Home() {
             texture and quiet elegance.
           </p>
 
-          <a href="#featured" className="primary-button">
+          <Link href="/collection" className="primary-button">
             Explore the collection
             <ArrowUpRight size={17} />
-          </a>
+          </Link>
         </div>
       </section>
 

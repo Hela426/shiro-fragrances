@@ -15,7 +15,7 @@ export default function Footer() {
 
           <Link href="/">Home</Link>
 
-          <Link href="/#collection">
+          <Link href="/collection">
             Collection
           </Link>
 

@@ -97,7 +97,7 @@ async function ProductContent({ params }: Props) {
       >
         <Link href="/">Home</Link>
         <span>/</span>
-        <Link href="/#collection">Collection</Link>
+        <Link href="/collection">Collection</Link>
         <span>/</span>
         <span aria-current="page">{product.name}</span>
       </nav>
