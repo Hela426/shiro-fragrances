@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Logo from "./logo";
+import CartButton from "./cart-button";
 
 const links = [
   { label: "Home", href: "/" },
@@ -43,7 +44,7 @@ export default function Navbar() {
         <Logo />
 
         <div className="nav-actions">
-          <span>EST. 2026</span>
+          <CartButton />
         </div>
       </nav>
 

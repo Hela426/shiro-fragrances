@@ -174,6 +174,8 @@ async function ProductContent({ params }: Props) {
           </div>
 
           <ProductQuantity
+            key={product.id}
+            productId={product.id}
             price={product.price}
             stock={product.stock}
           />
