@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+
+import "./globals.css";
+
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import CartHydration from "./components/cart-hydration";
 import SkipLink from "./components/skip-link";
 
-import "./globals.css";
+import { SITE_URL } from "./lib/site";
 
 export const metadata: Metadata = {
   title: "SHIRO — The Art of Fragrance",
-
-  description:
-    "Discover SHIRO, a Japanese-inspired concept fragrance store. Six fragrances shaped by nature, stillness and quiet elegance.",
-
+  description: "Discover SHIRO, a Japanese-inspired concept fragrance store. Six fragrances shaped by nature, stillness and quiet elegance.",
   applicationName: "SHIRO Fragrances",
-
   keywords: [
     "SHIRO",
     "Fragrances",
@@ -24,18 +23,18 @@ export const metadata: Metadata = {
     "Luxury fragrance",
     "Frontend portfolio",
   ],
-
   authors: [
     {
       name: "Karen Baron",
       url: "https://karenbaron-portfolio.netlify.app/",
     },
   ],
-
   creator: "Karen Baron",
-
   category: "Ecommerce",
-
+  metadataBase: new URL(SITE_URL),
+    alternates: {
+      canonical: "/",    
+    },
   robots: {
     index: true,
     follow: true,

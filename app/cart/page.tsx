@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   index: false,
   follow: true,
   },
+  alternates: {
+    canonical: "/cart",
+  },
 };
 
 export default function CartPage() {

@@ -8,9 +8,12 @@ export const metadata: Metadata = {
   title: "Checkout | SHIRO",
   description: "Complete your SHIRO demonstration order.",
   robots: {
-  index: false,
-  follow: true,
-},
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/checkout",
+  },
 };
 
 export default function CheckoutPage() {
