@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Logo from "./logo";
 import CartButton from "./cart-button";
+import WishlistButton from "./wishlist-button";
 
 const links = [
   { label: "Home", href: "/" },
@@ -44,6 +45,7 @@ export default function Navbar() {
         <Logo />
 
         <div className="nav-actions">
+          <WishlistButton />
           <CartButton />
         </div>
       </nav>

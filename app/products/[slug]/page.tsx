@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import FavoriteButton from "../../components/favorite-button";
 import { notFound } from "next/navigation";
 import {
   ArrowLeft,
@@ -171,6 +172,15 @@ async function ProductContent({ params }: Props) {
             {product.stock > 0
               ? "In stock"
               : "Out of stock"}
+          </div>
+
+          <div className="detail-favorite-row">
+            <span>Save to your wishlist</span>
+
+            <FavoriteButton
+              productId={product.id}
+              productName={product.name}
+            />
           </div>
 
           <ProductQuantity

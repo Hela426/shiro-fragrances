@@ -31,11 +31,11 @@ responsive interfaces and e-commerce architecture.
 - [x] Development environment
 - [x] Visual identity
 - [x] Product data and TypeScript types
-- [ ] Navigation and homepage
-- [ ] Interactive product catalog
-- [ ] Product details
-- [ ] Shopping cart
-- [ ] Wishlist
+- [x] Navigation and homepage
+- [x] Interactive product catalog
+- [x] Product details
+- [x] Shopping cart
+- [x] Wishlist
 - [ ] Simulated checkout
 - [ ] Internationalization
 - [ ] Unit testing
