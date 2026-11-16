@@ -927,3 +927,66 @@ button:focus-visible {
     transform: none;
   }
 }
+
+/* ── PRODUCT LOADING ── */
+
+.product-loading {
+  min-height: 70svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.loading-kanji {
+  font-family: Georgia, serif;
+  font-size: 85px;
+  font-weight: 400;
+}
+
+.product-loading h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(25px, 5vw, 40px);
+  font-weight: 400;
+}
+
+.product-loading p {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.loading-track {
+  position: relative;
+  width: 140px;
+  height: 2px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.loading-progress {
+  width: 45%;
+  height: 100%;
+  background: var(--foreground);
+  animation: fragrance-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes fragrance-loading {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(225%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-progress {
+    width: 100%;
+    animation: none;
+  }
+}

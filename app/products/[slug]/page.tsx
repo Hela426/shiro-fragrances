@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -48,9 +49,15 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductPage({
-  params,
-}: Props) {
+export default function ProductPage({ params }: Props) {
+  return (
+    <Suspense fallback={<ProductLoading />}>
+      <ProductContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ProductContent({ params }: Props) {
   const { slug } = await params;
 
   const product = getProductBySlug(slug);
@@ -245,6 +252,32 @@ export default async function ProductPage({
           Back to collection
         </Link>
       </section>
+    </main>
+  );
+}
+
+function ProductLoading() {
+  return (
+    <main
+      className="product-loading"
+      role="status"
+      aria-live="polite"
+    >
+      <span className="eyebrow">
+        THE ART OF FRAGRANCE
+      </span>
+
+      <span className="loading-kanji" lang="ja">
+        静
+      </span>
+
+      <h2>A moment of stillness.</h2>
+
+      <div className="loading-track">
+        <div className="loading-progress" />
+      </div>
+
+      <p>Discovering your fragrance...</p>
     </main>
   );
 }
