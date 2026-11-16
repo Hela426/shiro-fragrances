@@ -1992,3 +1992,31 @@ button:focus-visible {
   }
 }
 
+/* ── BILINGUAL NAVIGATION ── */
+
+@media (max-width: 480px) {
+  .navbar {
+    grid-template-columns: 1fr auto 1fr;
+    padding-inline: 12px;
+  }
+
+  .navbar .brand-name {
+    font-size: 21px;
+    letter-spacing: 6px;
+    padding-left: 6px;
+  }
+
+  .navbar .brand-subtitle {
+    font-size: 7px;
+    letter-spacing: 3px;
+    padding-left: 3px;
+  }
+
+  .nav-actions {
+    gap: 0;
+  }
+
+  .nav-actions .cart-nav-button {
+    width: 29px;
+  }
+}
