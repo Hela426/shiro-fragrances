@@ -18,7 +18,7 @@ export default function ProductNotFound() {
       </p>
 
       <Link
-        href="/#collection"
+        href="/collection"
         className="primary-button"
       >
         <ArrowLeft size={16} />
