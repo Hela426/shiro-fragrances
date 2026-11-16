@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SHIRO — Fragrances
+
+> The essence of simplicity.
+
+![Status](https://img.shields.io/badge/status-in_development-lightgrey)
+![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-000000?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-000000?logo=tailwindcss)
+
+## About
+
+SHIRO is a conceptual luxury fragrance e-commerce project
+inspired by Japanese minimalism, nature and sensory design.
+
+This project explores modern frontend development,
+responsive interfaces and e-commerce architecture.
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Zustand
+- Lucide React
+- ESLint
+
+## Roadmap
+
+- [x] Project initialization
+- [x] Development environment
+- [x] Visual identity
+- [x] Product data and TypeScript types
+- [ ] Navigation and homepage
+- [ ] Interactive product catalog
+- [ ] Product details
+- [ ] Shopping cart
+- [ ] Wishlist
+- [ ] Simulated checkout
+- [ ] Internationalization
+- [ ] Unit testing
+- [ ] Production deployment
 
 ## Getting Started
 
-First, run the development server:
+Clone the repository:
 
 ```bash
+git clone https://github.com/KDBaron426/shiro-fragrances.git
+cd shiro-fragrances
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Disclaimer
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This is an independent conceptual portfolio project.
+No real purchases or payment transactions are processed.
+It is not affiliated with any existing fragrance brand.
 
-## Learn More
+## Author
 
-To learn more about Next.js, take a look at the following resources:
+**Karen Baron — Frontend Developer**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Portfolio](https://karenbaron-portfolio.netlify.app/)
+- [GitHub](https://github.com/KDBaron426)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Quality assurance supervised by Molly. 🐾
