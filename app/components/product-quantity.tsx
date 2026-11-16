@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+
 import {
   Minus,
   Plus,
@@ -11,6 +12,7 @@ import {
 
 import { formatPrice } from "../lib/products";
 import { useCartStore } from "../store/cart-store";
+import { useTranslation } from "../lib/use-translation";
 
 type Props = {
   productId: string;
@@ -23,6 +25,8 @@ export default function ProductQuantity({
   price,
   stock,
 }: Props) {
+  const { t } = useTranslation();
+
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -65,13 +69,15 @@ export default function ProductQuantity({
 
   return (
     <div className="purchase-options">
-      <span className="quantity-label">Quantity</span>
+      <span className="quantity-label">
+        {t.product.quantity}
+      </span>
 
       <div className="quantity-row">
         <div className="quantity-selector">
           <button
             type="button"
-            aria-label="Decrease quantity"
+            aria-label={t.product.decrease}
             disabled={selectedQuantity <= 1}
             onClick={() =>
               changeQuantity(selectedQuantity - 1)
@@ -86,7 +92,7 @@ export default function ProductQuantity({
 
           <button
             type="button"
-            aria-label="Increase quantity"
+            aria-label={t.product.increase}
             disabled={selectedQuantity >= availableStock}
             onClick={() =>
               changeQuantity(selectedQuantity + 1)
@@ -97,12 +103,12 @@ export default function ProductQuantity({
         </div>
 
         <span className="quantity-stock">
-          {availableStock} available
+          {availableStock} {t.product.available}
         </span>
       </div>
 
       <div className="purchase-total">
-        <span>Subtotal</span>
+        <span>{t.product.subtotal}</span>
 
         <strong>
           {formatPrice(price * selectedQuantity)}
@@ -118,22 +124,21 @@ export default function ProductQuantity({
         <ShoppingBag size={18} />
 
         {stock === 0
-          ? "Out of stock"
+          ? t.product.outOfStock
           : availableStock === 0
-          ? "Maximum quantity in bag"
-          : "Add to bag"}
+          ? t.product.maximum
+          : t.product.addToBag}
       </button>
 
       {added && (
-        <div
-          className="cart-added-message"
-          role="status"
-        >
+        <div className="cart-added-message" role="status">
           <Check size={16} />
 
-          Added to your shopping bag.
+          {t.product.added}
 
-          <Link href="/cart">View bag</Link>
+          <Link href="/cart">
+            {t.product.viewBag}
+          </Link>
         </div>
       )}
     </div>

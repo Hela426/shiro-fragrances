@@ -10,6 +10,12 @@ import {
 
 import ProductCard from "./product-card";
 import { products } from "../data/products";
+import { useTranslation } from "../lib/use-translation";
+
+import {
+  familyTranslations,
+  getLocalizedProduct,
+} from "../data/product-translations";
 
 import {
   filterProducts,
@@ -19,28 +25,67 @@ import {
   type CatalogSort,
 } from "../lib/catalog";
 
-const families: {
-  value: CatalogFamily;
-  label: string;
-}[] = [
-  { value: "all", label: "All fragrances" },
-  { value: "floral", label: "Floral" },
-  { value: "woody", label: "Woody" },
-  { value: "amber", label: "Amber" },
-  { value: "green", label: "Green" },
-  { value: "aquatic", label: "Aquatic" },
-];
+function normalize(text: string) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
 
 export default function ProductCatalog() {
+  const { language, t } = useTranslation();
+
   const [filters, setFilters] =
     useState<CatalogFilters>(defaultFilters);
 
   const [mobileFilters, setMobileFilters] =
     useState(false);
 
+  const families: {
+    value: CatalogFamily;
+    label: string;
+  }[] = [
+    { value: "all", label: t.catalog.all },
+    ...Object.entries(familyTranslations[language]).map(
+      ([value, label]) => ({
+        value: value as CatalogFamily,
+        label,
+      })
+    ),
+  ];
+
+  const search = normalize(filters.search);
+
+  const searchableProducts = products.filter((product) => {
+    const spanish = getLocalizedProduct(product, "es");
+
+    const searchableText = normalize([
+      product.name,
+      product.japaneseName,
+      product.family,
+      product.meaning,
+      product.description,
+      spanish.meaning,
+      spanish.description,
+      familyTranslations.es[product.family],
+      ...product.notes.top,
+      ...product.notes.heart,
+      ...product.notes.base,
+      ...spanish.notes.top,
+      ...spanish.notes.heart,
+      ...spanish.notes.base,
+    ].join(" "));
+
+    return searchableText.includes(search);
+  });
+
   const filteredProducts = filterProducts(
-    products,
-    filters
+    searchableProducts,
+    {
+      ...filters,
+      search: "",
+    }
   );
 
   function updateFilter<K extends keyof CatalogFilters>(
@@ -72,7 +117,7 @@ export default function ProductCatalog() {
           <SlidersHorizontal size={18} />
         )}
 
-        Filters
+        {t.catalog.filters}
       </button>
 
       <aside
@@ -82,18 +127,15 @@ export default function ProductCatalog() {
         }`}
       >
         <div className="filter-heading">
-          <h2>Filters</h2>
+          <h2>{t.catalog.filters}</h2>
 
-          <button
-            type="button"
-            onClick={clearFilters}
-          >
-            Reset
+          <button type="button" onClick={clearFilters}>
+            {t.catalog.reset}
           </button>
         </div>
 
         <div className="filter-group">
-          <h3>Fragrance family</h3>
+          <h3>{t.catalog.family}</h3>
 
           {families.map((family) => (
             <label
@@ -103,9 +145,7 @@ export default function ProductCatalog() {
               <input
                 type="radio"
                 name="fragrance-family"
-                checked={
-                  filters.family === family.value
-                }
+                checked={filters.family === family.value}
                 onChange={() =>
                   updateFilter("family", family.value)
                 }
@@ -117,10 +157,10 @@ export default function ProductCatalog() {
         </div>
 
         <div className="filter-group">
-          <h3>Maximum price</h3>
+          <h3>{t.catalog.maxPrice}</h3>
 
           <div className="price-filter-value">
-            Up to ${filters.maxPrice}
+            {t.catalog.upTo} ${filters.maxPrice}
           </div>
 
           <input
@@ -129,7 +169,7 @@ export default function ProductCatalog() {
             max={100}
             step={5}
             value={filters.maxPrice}
-            aria-label="Maximum price"
+            aria-label={t.catalog.maxPrice}
             onChange={(event) =>
               updateFilter(
                 "maxPrice",
@@ -145,21 +185,18 @@ export default function ProductCatalog() {
         </div>
 
         <div className="filter-group">
-          <h3>Availability</h3>
+          <h3>{t.catalog.availability}</h3>
 
           <label className="filter-option">
             <input
               type="checkbox"
               checked={filters.onlyNew}
               onChange={(event) =>
-                updateFilter(
-                  "onlyNew",
-                  event.target.checked
-                )
+                updateFilter("onlyNew", event.target.checked)
               }
             />
 
-            New arrivals
+            {t.catalog.arrivals}
           </label>
 
           <label className="filter-option">
@@ -167,14 +204,11 @@ export default function ProductCatalog() {
               type="checkbox"
               checked={filters.inStock}
               onChange={(event) =>
-                updateFilter(
-                  "inStock",
-                  event.target.checked
-                )
+                updateFilter("inStock", event.target.checked)
               }
             />
 
-            In stock
+            {t.catalog.inStock}
           </label>
         </div>
       </aside>
@@ -185,8 +219,8 @@ export default function ProductCatalog() {
 
           <input
             type="search"
-            placeholder="Search fragrances or notes..."
-            aria-label="Search fragrances"
+            placeholder={t.catalog.search}
+            aria-label={t.catalog.searchLabel}
             value={filters.search}
             onChange={(event) =>
               updateFilter("search", event.target.value)
@@ -196,7 +230,7 @@ export default function ProductCatalog() {
           {filters.search && (
             <button
               type="button"
-              aria-label="Clear search"
+              aria-label={t.catalog.clearSearch}
               onClick={() => updateFilter("search", "")}
             >
               <X size={18} />
@@ -208,12 +242,12 @@ export default function ProductCatalog() {
           <span aria-live="polite">
             {filteredProducts.length}{" "}
             {filteredProducts.length === 1
-              ? "fragrance"
-              : "fragrances"}
+              ? t.catalog.singular
+              : t.catalog.plural}
           </span>
 
           <select
-            aria-label="Sort fragrances"
+            aria-label={t.catalog.sort}
             value={filters.sort}
             onChange={(event) =>
               updateFilter(
@@ -222,15 +256,25 @@ export default function ProductCatalog() {
               )
             }
           >
-            <option value="featured">Featured</option>
-            <option value="newest">New arrivals</option>
+            <option value="featured">
+              {t.catalog.featured}
+            </option>
+
+            <option value="newest">
+              {t.catalog.arrivals}
+            </option>
+
             <option value="price-asc">
-              Price: low to high
+              {t.catalog.priceAsc}
             </option>
+
             <option value="price-desc">
-              Price: high to low
+              {t.catalog.priceDesc}
             </option>
-            <option value="name-asc">Name: A–Z</option>
+
+            <option value="name-asc">
+              {t.catalog.nameAsc}
+            </option>
           </select>
         </div>
 
@@ -247,18 +291,16 @@ export default function ProductCatalog() {
           <div className="catalog-empty">
             <Flower2 size={45} strokeWidth={1} />
 
-            <h2>A moment of stillness.</h2>
+            <h2>{t.catalog.emptyTitle}</h2>
 
-            <p>
-              No fragrances match your current filters.
-            </p>
+            <p>{t.catalog.emptyDescription}</p>
 
             <button
               type="button"
               className="primary-button"
               onClick={clearFilters}
             >
-              Clear all filters
+              {t.catalog.clearFilters}
             </button>
           </div>
         )}

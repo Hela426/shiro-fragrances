@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "../../lib/use-translation";
 
 export default function ProductNotFound() {
+  const { t } = useTranslation();
+
   return (
     <main className="fragrance-not-found">
       <span className="eyebrow">404 — SHIRO</span>
@@ -10,19 +15,16 @@ export default function ProductNotFound() {
         空
       </span>
 
-      <h1>A moment of emptiness.</h1>
+      <h1>{t.product.missingTitle}</h1>
 
-      <p>
-        The fragrance you are looking for
-        could not be found.
-      </p>
+      <p>{t.product.missingDescription}</p>
 
       <Link
         href="/collection"
         className="primary-button"
       >
         <ArrowLeft size={16} />
-        Explore the collection
+        {t.home.explore}
       </Link>
     </main>
   );

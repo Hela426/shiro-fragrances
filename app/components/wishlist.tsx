@@ -6,10 +6,13 @@ import { Heart, ShoppingBag } from "lucide-react";
 import { products } from "../data/products";
 import { useWishlistStore } from "../store/wishlist-store";
 import { useCartStore } from "../store/cart-store";
+import { useTranslation } from "../lib/use-translation";
 
 import ProductCard from "./product-card";
 
 export default function Wishlist() {
+  const { t } = useTranslation();
+
   const favorites = useWishlistStore(
     (state) => state.favorites
   );
@@ -36,20 +39,18 @@ export default function Wishlist() {
         <Heart size={60} strokeWidth={1} />
 
         <span className="eyebrow">
-          MEMORIES WORTH KEEPING
+          {t.wishlist.eyebrow}
         </span>
 
-        <h2>Your wishlist is empty.</h2>
+        <h2>{t.wishlist.emptyTitle}</h2>
 
-        <p>
-          Save the fragrances that speak to you.
-        </p>
+        <p>{t.wishlist.emptyDescription}</p>
 
         <Link
           href="/collection"
           className="primary-button"
         >
-          Explore the collection
+          {t.home.explore}
         </Link>
       </div>
     );
@@ -61,19 +62,19 @@ export default function Wishlist() {
         <span aria-live="polite">
           {favoriteProducts.length}{" "}
           {favoriteProducts.length === 1
-            ? "fragrance"
-            : "fragrances"}
+            ? t.catalog.singular
+            : t.catalog.plural}
         </span>
 
         <button
           type="button"
           onClick={() => {
-            if (window.confirm("Clear your wishlist?")) {
+            if (window.confirm(t.wishlist.confirm)) {
               clearWishlist();
             }
           }}
         >
-          Clear wishlist
+          {t.wishlist.clear}
         </button>
       </div>
 
@@ -100,18 +101,15 @@ export default function Wishlist() {
                 disabled={!canAdd}
                 onClick={() => addItem(product.id, 1)}
               >
-                <ShoppingBag
-                  size={17}
-                  strokeWidth={1.5}
-                />
+                <ShoppingBag size={17} strokeWidth={1.5} />
 
                 {product.stock === 0
-                  ? "Out of stock"
+                  ? t.product.outOfStock
                   : !canAdd
-                  ? "Maximum quantity in bag"
+                  ? t.product.maximum
                   : quantityInCart > 0
-                  ? `Add another (${quantityInCart} in bag)`
-                  : "Add to bag"}
+                  ? `${t.wishlist.addAnother} (${quantityInCart} ${t.wishlist.inBag})`
+                  : t.product.addToBag}
               </button>
             </div>
           );
@@ -122,7 +120,7 @@ export default function Wishlist() {
         href="/collection"
         className="back-collection"
       >
-        Continue exploring
+        {t.wishlist.continue}
       </Link>
     </section>
   );

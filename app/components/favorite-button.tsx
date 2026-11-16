@@ -2,6 +2,7 @@
 
 import { Heart } from "lucide-react";
 import { useWishlistStore } from "../store/wishlist-store";
+import { useTranslation } from "../lib/use-translation";
 
 type Props = {
   productId: string;
@@ -14,6 +15,8 @@ export default function FavoriteButton({
   productName,
   className = "",
 }: Props) {
+  const { t } = useTranslation();
+
   const isFavorite = useWishlistStore(
     (state) => state.favorites.includes(productId)
   );
@@ -22,17 +25,20 @@ export default function FavoriteButton({
     (state) => state.toggleFavorite
   );
 
+  const label = `${
+    isFavorite
+      ? t.product.removeFavorite
+      : t.product.addFavorite
+  }: ${productName}`;
+
   return (
     <button
       type="button"
       className={`favorite-button ${
         isFavorite ? "is-favorite" : ""
       } ${className}`}
-      aria-label={
-        isFavorite
-          ? `Remove ${productName} from wishlist`
-          : `Add ${productName} to wishlist`
-      }
+      aria-label={label}
+      title={label}
       aria-pressed={isFavorite}
       onClick={() => toggleFavorite(productId)}
     >
