@@ -36,8 +36,8 @@ responsive interfaces and e-commerce architecture.
 - [x] Product details
 - [x] Shopping cart
 - [x] Wishlist
-- [ ] Simulated checkout
-- [ ] Internationalization
+- [x] Simulated checkout
+- [x] Internationalization
 - [ ] Unit testing
 - [ ] Production deployment
 
