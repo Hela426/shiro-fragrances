@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+
 import type { Product } from "../types/product";
 import { formatPrice } from "../lib/products";
+import FavoriteButton from "./favorite-button";
 
 export default function ProductCard({
   product,
@@ -11,6 +13,11 @@ export default function ProductCard({
 }) {
   return (
     <article className="product-card">
+      <FavoriteButton
+        productId={product.id}
+        productName={product.name}
+        className="card-favorite"
+      />
       <Link
         href={`/products/${product.slug}`}
         className="product-card-link"
