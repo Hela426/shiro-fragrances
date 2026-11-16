@@ -61,7 +61,7 @@ export default function ProductDetail({
   ];
 
   return (
-    <main className="product-page">
+    <main className="product-page" id="main-content" tabIndex={-1}>
       <nav className="breadcrumbs" aria-label={t.nav.home}>
         <Link href="/">{t.nav.home}</Link>
         <span>/</span>

@@ -6,13 +6,16 @@ import PurchasePageHeader from "../components/purchase-page-header";
 
 export const metadata: Metadata = {
   title: "Checkout | SHIRO",
-  description:
-    "Complete your SHIRO demonstration order.",
+  description: "Complete your SHIRO demonstration order.",
+  robots: {
+  index: false,
+  follow: true,
+},
 };
 
 export default function CheckoutPage() {
   return (
-    <main className="cart-page">
+    <main className="cart-page" id="main-content" tabIndex={-1}>
       <PurchasePageHeader variant="checkout" />
 
       <Suspense fallback={<CheckoutLoading />}>
