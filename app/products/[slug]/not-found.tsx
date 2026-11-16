@@ -8,7 +8,7 @@ export default function ProductNotFound() {
   const { t } = useTranslation();
 
   return (
-    <main className="fragrance-not-found">
+    <main className="fragrance-not-found" id="main-content" tabIndex={-1}>
       <span className="eyebrow">404 — SHIRO</span>
 
       <span className="missing-kanji" lang="ja">

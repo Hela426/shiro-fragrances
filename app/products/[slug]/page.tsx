@@ -65,10 +65,7 @@ async function ProductContent({ params }: Props) {
 
 function ProductLoading() {
   return (
-    <main
-      className="product-loading"
-      role="status"
-    >
+    <main className="product-loading" role="status" id="main-content" tabIndex={-1}>
       <span className="loading-kanji" lang="ja">
         静
       </span>

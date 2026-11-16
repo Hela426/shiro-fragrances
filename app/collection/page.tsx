@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CollectionPage() {
   return (
-    <main className="catalog-page">
+    <main className="catalog-page" id="main-content" tabIndex={-1}>
       <ShopPageHeader variant="catalog" />
       <ProductCatalog />
     </main>

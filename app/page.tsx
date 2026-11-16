@@ -15,7 +15,7 @@ export default function Home() {
   );
 
   return (
-    <main>
+    < main id="main-content" tabIndex={-1}>
       <section className="home-hero">
         <div className="hero-image">
           <Image
