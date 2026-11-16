@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import CartHydration from "./components/cart-hydration";
 
 import "./globals.css";
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <CartHydration />
         <Navbar />
         {children}
         <Footer />
