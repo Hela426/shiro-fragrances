@@ -1,0 +1,41 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 7px;
+  min-height: 40px;
+  padding: 8px;
+  color: var(--foreground);
+  font-size: 10px;
+  letter-spacing: 1px;
+  background: transparent;
+  transition: opacity 200ms ease;
+}
+
+.button:hover {
+  opacity: .6;
+}
+
+.button svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .button {
+    gap: 4px;
+    padding: 4px;
+    font-size: 9px;
+  }
+
+  .button svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

@@ -1,38 +1,42 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "./logo";
+import { useTranslation } from "../lib/use-translation";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
           <Logo />
-          <p>The essence of simplicity.</p>
+          <p>{t.footer.slogan}</p>
         </div>
 
         <div className="footer-links">
-          <h4>Explore</h4>
+          <h4>{t.footer.explore}</h4>
 
-          <Link href="/">Home</Link>
+          <Link href="/">{t.nav.home}</Link>
 
           <Link href="/collection">
-            Collection
+            {t.nav.collection}
           </Link>
 
           <Link href="/#philosophy">
-            Our philosophy
+            {t.nav.philosophy}
           </Link>
         </div>
 
         <div className="footer-links">
-          <h4>Credits</h4>
+          <h4>{t.footer.credits}</h4>
 
           <a
             href="https://karenbaron-portfolio.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Developer portfolio
+            {t.footer.portfolio}
           </a>
 
           <a
@@ -40,14 +44,14 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Source code
+            {t.footer.sourceCode}
           </a>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <span>© 2026 SHIRO — Concept project.</span>
-        <span>No real transactions are processed.</span>
+        <span>{t.footer.copyright}</span>
+        <span>{t.footer.disclaimer}</span>
       </div>
     </footer>
   );

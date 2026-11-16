@@ -1,12 +1,15 @@
-import Link from "next/link";
+"use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import ProductCard from "./components/product-card";
 import { products } from "./data/products";
+import { useTranslation } from "./lib/use-translation";
 
 export default function Home() {
+  const { t } = useTranslation();
   const featuredProducts = products.filter(
     (product) => product.featured
   );
@@ -26,23 +29,21 @@ export default function Home() {
 
         <div className="hero-content">
           <span className="eyebrow">
-            01 — THE ART OF FRAGRANCE
+            {t.home.heroEyebrow}
           </span>
 
           <h1>
-            The essence
+            {t.home.heroTitle}
             <br />
-            <em>of simplicity.</em>
+            <em>{t.home.heroSubtitle}</em>
           </h1>
 
           <p>
-            Inspired by nature. Crafted for the senses.
-            Discover a fragrance collection shaped by stillness,
-            texture and quiet elegance.
+            {t.home.heroDescription}
           </p>
 
           <Link href="/collection" className="primary-button">
-            Explore the collection
+            {t.home.explore}
             <ArrowUpRight size={17} />
           </Link>
         </div>
@@ -51,13 +52,13 @@ export default function Home() {
       <section id="featured" className="collection-section">
         <div className="section-heading">
           <span className="eyebrow">
-            02 — FEATURED FRAGRANCES
+            {t.home.featuredEyebrow}
           </span>
 
-          <h2>Signature selection.</h2>
+          <h2>{t.home.featuredTitle}</h2>
 
           <p>
-            A curated introduction to the world of SHIRO.
+            {t.home.featuredDescription}
           </p>
         </div>
 
@@ -74,16 +75,13 @@ export default function Home() {
       <section className="editorial-section">
         <div className="editorial-copy">
           <span className="eyebrow">
-            03 — SENSORY DESIGN
+            {t.home.editorialEyebrow}
           </span>
 
-          <h2>Fragrance as a quiet ritual.</h2>
+          <h2>{t.home.editorialTitle}</h2>
 
           <p>
-            Every bottle is imagined as a still moment:
-            snow, shadow, moonlight, blossom, forest
-            and rain. Together, they shape a calm and
-            contemplative world.
+            {t.home.editorialDescription}
           </p>
         </div>
 
@@ -100,13 +98,13 @@ export default function Home() {
       <section id="collection" className="collection-section all-products-section">
         <div className="section-heading">
           <span className="eyebrow">
-            04 — THE FULL COLLECTION
+            {t.home.collectionEyebrow}
           </span>
 
-          <h2>Discover your essence.</h2>
+          <h2>{t.home.collectionTitle}</h2>
 
           <p>
-            Six fragrances. Six interpretations of nature.
+            {t.home.collectionDescription}
           </p>
         </div>
 
@@ -125,23 +123,21 @@ export default function Home() {
         className="philosophy-section"
       >
         <span className="eyebrow">
-          05 — OUR PHILOSOPHY
+          {t.home.philosophyEyebrow}
         </span>
 
         <span className="philosophy-kanji" lang="ja">
           静
         </span>
 
-        <h2>Beauty in stillness.</h2>
+        <h2>{t.home.philosophyTitle}</h2>
 
         <p>
-          We believe fragrance is more than a scent.
-          It is a memory, an emotion, a quiet moment
-          that belongs entirely to you.
+          {t.home.philosophyDescription}
         </p>
 
         <span className="philosophy-signature">
-          SHIRO — The essence of simplicity.
+          {t.home.signature}
         </span>
       </section>
     </main>
